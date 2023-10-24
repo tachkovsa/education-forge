@@ -1,0 +1,32 @@
+.fullWidth {
+  width: 100%;
+}
+
+.curPathMarker {
+  color: #108ee9;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.resultBlock {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.resultText {
+  font-size: 24px;
+}
+
+.finishText {
+  font-size: 48px;
+}
+
+.substitution {
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
