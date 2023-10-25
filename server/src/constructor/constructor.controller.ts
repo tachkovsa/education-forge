@@ -35,16 +35,20 @@ export class ConstructorController {
   }
 
   @Get('learning-outcomes/:id')
-  getLearningOutcome(@Param('id') id) {
-    return this.constructorService.getLearningOutcomeById({ id });
+  getLearningOutcome(@Param('id') id, @Request() req) {
+    const { sub: userId } = req.user;
+
+    return this.constructorService.getLearningOutcomeById({ id, userId });
   }
 
   @Patch('learning-outcomes')
   updateLearningOutcomes(
     @Body() updateLearningOutcomeDto: UpdateLearningOutcomeDto,
+    @Request() req,
   ) {
-    return this.constructorService.updateLearningOutcome(
-      updateLearningOutcomeDto,
-    );
+    return this.constructorService.updateLearningOutcome({
+      ...updateLearningOutcomeDto,
+      user: req.user.sub,
+    });
   }
 }

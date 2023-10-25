@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LearningOutcome } from './models/learning-outcome.entity';
@@ -31,22 +31,30 @@ export class ConstructorService {
     });
   }
 
-  async getLearningOutcomeById({ id }) {
-    return this.learningOutcomeRepository.findOne({ where: { id } });
+  async getLearningOutcomeById({ id, userId }) {
+    const learningOutcome = await this.learningOutcomeRepository.findOne({
+      where: { id, user: { id: userId } },
+    });
+
+    if (!learningOutcome) {
+      throw new NotFoundException();
+    }
+
+    return learningOutcome;
   }
 
   async updateLearningOutcome(
     learningOutcomeForUpdate: Partial<LearningOutcome>,
   ) {
-    const { id } = learningOutcomeForUpdate;
-    const learningOutcome = await this.getLearningOutcomeById({ id });
+    const { id, user: userId } = learningOutcomeForUpdate;
+    const learningOutcome = await this.getLearningOutcomeById({ id, userId });
 
     await this.learningOutcomeRepository.save({
       ...learningOutcome,
       ...learningOutcomeForUpdate,
     });
 
-    return this.getLearningOutcomeById({ id });
+    return this.getLearningOutcomeById({ id, userId });
   }
 
   async deleteLearningOutcomeById({ id }) {
