@@ -1,7 +1,10 @@
-export type BloomsLevel =
-  | 'remembering'
-  | 'understanding'
-  | 'applying'
-  | 'analyzing'
-  | 'evaluating'
-  | 'creating';
+export const bloomLevels = [
+  'remembering',
+  'understanding',
+  'applying',
+  'analyzing',
+  'evaluating',
+  'creating',
+] as const;
+
+export type BloomsLevel = (typeof bloomLevels)[number];

@@ -9,42 +9,39 @@ import {
 } from '@nestjs/common';
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
 import { ConstructorService } from './constructor.service';
+import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
 
 @Controller('constructor')
 export class ConstructorController {
   constructor(private constructorService: ConstructorService) {}
-  @Post('learning-outcome')
+  @Post('learning-outcomes')
   createLearningOutcome(
     @Body() saveLearningOutcomeDto: SaveLearningOutcomeDto,
     @Request() req,
   ) {
-    const { who, bloomsLevel, verb, goal, condition } = saveLearningOutcomeDto;
+    // const { who, bloomsLevel, verb, goal, condition } = saveLearningOutcomeDto;
 
     return this.constructorService.createLearningOutcome({
-      who,
-      bloomsLevel,
-      verb,
-      goal,
-      condition,
+      ...saveLearningOutcomeDto,
       user: req.user.sub,
     });
   }
 
-  @Get('learning-outcome')
+  @Get('learning-outcomes')
   getLearningOutcomes(@Request() req) {
     return this.constructorService.getLearningOutcomesByUser({
       userId: req.user.sub,
     });
   }
 
-  @Get('learning-outcome/:id')
+  @Get('learning-outcomes/:id')
   getLearningOutcome(@Param('id') id) {
     return this.constructorService.getLearningOutcomeById({ id });
   }
 
-  @Patch('learning-outcome')
+  @Patch('learning-outcomes')
   updateLearningOutcomes(
-    @Body() updateLearningOutcomeDto: SaveLearningOutcomeDto,
+    @Body() updateLearningOutcomeDto: UpdateLearningOutcomeDto,
   ) {
     return this.constructorService.updateLearningOutcome(
       updateLearningOutcomeDto,
