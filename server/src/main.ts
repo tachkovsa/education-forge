@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Конструктор результатов обучения')
