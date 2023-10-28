@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from '../../users/models/user.entity';
+import { UserEntity } from '../../users/models/user.entity';
 import { BloomsLevel } from '../constants';
 
 @Entity('learning_outcomes')
@@ -27,9 +27,9 @@ export class LearningOutcomeEntity {
   @Column()
   condition: string;
 
-  @ManyToOne(() => User, (user) => user.learningOutcomes)
+  @ManyToOne(() => UserEntity, (user) => user.learningOutcomes)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: UserEntity;
 
   @CreateDateColumn({ name: 'create_date' })
   createdAt: Date;

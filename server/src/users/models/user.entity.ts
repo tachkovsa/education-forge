@@ -10,7 +10,7 @@ import {
 import { LearningOutcomeEntity } from '../../constructor/models/learning-outcome.entity';
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
