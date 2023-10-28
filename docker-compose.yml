@@ -1,22 +1,22 @@
 version: '3.8'
 services:
-  server:
-    restart: unless-stopped
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: dev
-    env_file:
-      - server/.env
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
-    networks:
-      - education-forge-network
-    depends_on:
-      - db
+#  server:
+#    restart: unless-stopped
+#    build:
+#      context: ./server
+#      dockerfile: Dockerfile
+#      target: dev
+#    env_file:
+#      - server/.env
+#    ports:
+#      - '3000:3000'
+#    volumes:
+#      - ./server:/usr/src/app
+#      - /usr/src/app/node_modules
+#    networks:
+#      - education-forge-network
+#    depends_on:
+#      - db
   db:
       image: postgres
       restart: unless-stopped
@@ -36,50 +36,3 @@ networks:
 volumes:
   db:
     driver: local
-
-#version: '3.8'
-#services:
-#  server:
-#    image: node:18-alpine
-#    build:
-#      context: ./server
-#      dockerfile: Dockerfile
-#      target: dev
-#    ports:
-#      - '3000:3000'
-
-#    volumes:
-#      - .:/usr/src/app
-#    command:
-#      - npm run start:dev
-
-#      dockerfile: ./server/Dockerfile
-#    command:
-#      - npm run start:dev
-#    volumes:
-#      - .:/server
-#    command: npm run start:dev
-#    environment:
-#      NODE_ENV: development
-#      - /usr/server/node_modules
-#    depends_on:
-#      - db
-#  db:
-#    image: postgres
-#    restart: unless-stopped
-#    environment:
-#      - POSTGRES_USER=${POSTGRES_USER}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#      - POSTGRES_DB=${POSTGRES_DB}
-#    ports:
-#      - '5432:5432'
-#    volumes:
-#      - db:/var/lib/postgresql/data
-#    networks:
-#      - education-forge-network
-#volumes:
-#  db:
-#    driver: local
-#networks:
-#  education-forge-network:
-#    driver: bridge
