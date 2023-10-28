@@ -6,23 +6,28 @@ import {
   Post,
   Request,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
-import { ConstructorService } from './constructor.service';
+import { LearningOutcomesService } from './learning-outcomes.service';
 import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
-import { ApiTags, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { BloomsLevel } from './constants';
+import { VerbsService } from './verbs.service';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('constructor')
 @Controller('constructor')
 export class ConstructorController {
-  constructor(private constructorService: ConstructorService) {}
+  constructor(
+    private constructorService: LearningOutcomesService,
+    private verbsService: VerbsService,
+  ) {}
   @Post('learning-outcomes')
   createLearningOutcome(
     @Body() saveLearningOutcomeDto: SaveLearningOutcomeDto,
     @Request() req,
   ) {
-    // const { who, bloomsLevel, verb, goal, condition } = saveLearningOutcomeDto;
-
     return this.constructorService.createLearningOutcome({
       ...saveLearningOutcomeDto,
       user: req.user.sub,
@@ -57,5 +62,22 @@ export class ConstructorController {
       ...updateLearningOutcomeDto,
       user: req.user.sub,
     });
+  }
+
+  @ApiProperty({
+    name: 'blooms-level',
+    enum: [
+      'remembering',
+      'understanding',
+      'applying',
+      'analyzing',
+      'evaluating',
+      'creating',
+    ],
+  })
+  @Public()
+  @Get('verbs')
+  getVerbsByBloomsLevel(@Query('blooms-level') bloomsLevel: BloomsLevel) {
+    return this.verbsService.getVerbsByBloomsLevel({ bloomsLevel });
   }
 }

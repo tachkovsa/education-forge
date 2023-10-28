@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { LearningOutcome } from '../../constructor/models/learning-outcome.entity';
+import { LearningOutcomeEntity } from '../../constructor/models/learning-outcome.entity';
 
 @Entity('users')
 export class User {
@@ -34,9 +34,12 @@ export class User {
   })
   isVerified: boolean;
 
-  @OneToMany(() => LearningOutcome, (learningOutcome) => learningOutcome.user)
+  @OneToMany(
+    () => LearningOutcomeEntity,
+    (learningOutcome) => learningOutcome.user,
+  )
   @JoinColumn()
-  learningOutcomes: LearningOutcome[];
+  learningOutcomes: LearningOutcomeEntity[];
 
   @CreateDateColumn({ name: 'create_date' })
   createdAt: Date;

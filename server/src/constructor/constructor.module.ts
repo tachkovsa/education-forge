@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConstructorService } from './constructor.service';
+import { LearningOutcomesService } from './learning-outcomes.service';
 import { ConstructorController } from './constructor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LearningOutcome } from './models/learning-outcome.entity';
+import { LearningOutcomeEntity } from './models/learning-outcome.entity';
+import { VerbsEntity } from './models/verbs.entity';
+import { VerbsService } from './verbs.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LearningOutcome])],
-  providers: [ConstructorService],
+  imports: [TypeOrmModule.forFeature([LearningOutcomeEntity, VerbsEntity])],
+  providers: [LearningOutcomesService, VerbsService],
   controllers: [ConstructorController],
 })
 export class ConstructorModule {}

@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LearningOutcome } from './models/learning-outcome.entity';
+import { LearningOutcomeEntity } from './models/learning-outcome.entity';
 
 @Injectable()
-export class ConstructorService {
+export class LearningOutcomesService {
   constructor(
-    @InjectRepository(LearningOutcome)
-    private learningOutcomeRepository: Repository<LearningOutcome>,
+    @InjectRepository(LearningOutcomeEntity)
+    private learningOutcomeRepository: Repository<LearningOutcomeEntity>,
   ) {}
 
   async createLearningOutcome(
-    learningOutcome: Partial<LearningOutcome>,
-  ): Promise<LearningOutcome> {
+    learningOutcome: Partial<LearningOutcomeEntity>,
+  ): Promise<LearningOutcomeEntity> {
     const newLearningOutcome =
       this.learningOutcomeRepository.create(learningOutcome);
 
@@ -44,7 +44,7 @@ export class ConstructorService {
   }
 
   async updateLearningOutcome(
-    learningOutcomeForUpdate: Partial<LearningOutcome>,
+    learningOutcomeForUpdate: Partial<LearningOutcomeEntity>,
   ) {
     const { id, user: userId } = learningOutcomeForUpdate;
     const learningOutcome = await this.getLearningOutcomeById({ id, userId });

@@ -11,7 +11,7 @@ import { User } from '../../users/models/user.entity';
 import { BloomsLevel } from '../constants';
 
 @Entity('learning_outcomes')
-export class LearningOutcome {
+export class LearningOutcomeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
