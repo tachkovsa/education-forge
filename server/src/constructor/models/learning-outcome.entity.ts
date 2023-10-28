@@ -15,9 +15,6 @@ export class LearningOutcome {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  who: string;
-
   @Column({ name: 'blooms_level' })
   bloomsLevel: BloomsLevel;
 

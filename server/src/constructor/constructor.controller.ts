@@ -10,7 +10,9 @@ import {
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
 import { ConstructorService } from './constructor.service';
 import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
+import { ApiTags, ApiParam } from '@nestjs/swagger';
 
+@ApiTags('constructor')
 @Controller('constructor')
 export class ConstructorController {
   constructor(private constructorService: ConstructorService) {}
@@ -35,6 +37,11 @@ export class ConstructorController {
   }
 
   @Get('learning-outcomes/:id')
+  @ApiParam({
+    name: 'id',
+    description: 'Идентификатор результата обучения',
+    type: String,
+  })
   getLearningOutcome(@Param('id') id, @Request() req) {
     const { sub: userId } = req.user;
 
