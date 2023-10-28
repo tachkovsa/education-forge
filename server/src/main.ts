@@ -17,6 +17,17 @@ async function bootstrap() {
     .setDescription('Описание API конструктора результатов обучения')
     .setVersion(version)
     .addTag('education-forge')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Введите JWT-токен',
+        in: 'header',
+      },
+      'JWT',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);

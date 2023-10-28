@@ -11,7 +11,7 @@ import {
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
 import { LearningOutcomesService } from './learning-outcomes.service';
 import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
-import { ApiTags, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { ApiTags, ApiParam, ApiProperty, ApiBearerAuth } from '@nestjs/swagger';
 import { BloomsLevel } from './constants';
 import { VerbsService } from './verbs.service';
 import { Public } from '../auth/decorators/public.decorator';
@@ -23,6 +23,8 @@ export class ConstructorController {
     private constructorService: LearningOutcomesService,
     private verbsService: VerbsService,
   ) {}
+
+  @ApiBearerAuth('JWT')
   @Post('learning-outcomes')
   createLearningOutcome(
     @Body() saveLearningOutcomeDto: SaveLearningOutcomeDto,
