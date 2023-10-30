@@ -7,6 +7,7 @@ import {
   Request,
   Patch,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
 import { LearningOutcomesService } from './learning-outcomes.service';
@@ -15,6 +16,7 @@ import { ApiTags, ApiParam, ApiProperty, ApiBearerAuth } from '@nestjs/swagger';
 import { BloomsLevel } from './constants';
 import { VerbsService } from './verbs.service';
 import { Public } from '../auth/decorators/public.decorator';
+import { FavouritesService } from './favourites.service';
 
 @ApiTags('constructor')
 @Controller('constructor')
@@ -22,6 +24,7 @@ export class ConstructorController {
   constructor(
     private constructorService: LearningOutcomesService,
     private verbsService: VerbsService,
+    private favouritesService: FavouritesService,
   ) {}
 
   @ApiBearerAuth('JWT')
@@ -79,5 +82,34 @@ export class ConstructorController {
   @Get('verbs')
   getVerbsByBloomsLevel(@Query('blooms-level') bloomsLevel: BloomsLevel) {
     return this.verbsService.getVerbsByBloomsLevel({ bloomsLevel });
+  }
+
+  @ApiProperty({
+    name: 'learning-outcome-id',
+  })
+  @Post('favourites')
+  addToFavourites(
+    @Query('learning-outcome-id') learningOutcomeId,
+    @Request() req,
+  ) {
+    return this.favouritesService.addLearningOutcomeToFavourites({
+      user: req.user.sub,
+      learningOutcome: learningOutcomeId,
+    });
+  }
+
+  @Get('favourites')
+  getFavourites(@Request() req) {
+    return this.favouritesService.getFavouritesByUserId(req.user.sub);
+  }
+
+  @Delete('favourites/:id')
+  removeFromFavourites(@Param('id') learningOutcomeId, @Request() req) {
+    const { id: userId } = req.user;
+
+    return this.favouritesService.removeFromFavourites({
+      learningOutcomeId,
+      userId,
+    });
   }
 }
