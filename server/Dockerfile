@@ -1,10 +1,10 @@
 FROM node:18 AS server
 
 FROM server AS dev
-WORKDIR /user/src/app
-COPY package*.json ./
+WORKDIR /usr/src/app
+COPY --chown=node:node package*.json ./
 ENV NODE_ENVIRONMENT=development
 RUN npm install
-COPY . .
+COPY --chown=node:node . .
 EXPOSE 3000
 CMD ["npm", "run", "start:dev"]
