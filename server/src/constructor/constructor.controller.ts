@@ -32,7 +32,7 @@ export class ConstructorController {
   ) {
     return this.constructorService.createLearningOutcome({
       ...saveLearningOutcomeDto,
-      user: req.user.sub,
+      creator: req.user.sub,
     });
   }
 
@@ -49,10 +49,8 @@ export class ConstructorController {
     description: 'Идентификатор результата обучения',
     type: String,
   })
-  getLearningOutcome(@Param('id') id, @Request() req) {
-    const { sub: userId } = req.user;
-
-    return this.constructorService.getLearningOutcomeById({ id, userId });
+  getLearningOutcome(@Param('id') id) {
+    return this.constructorService.getLearningOutcomeById({ id });
   }
 
   @Patch('learning-outcomes')
@@ -62,7 +60,7 @@ export class ConstructorController {
   ) {
     return this.constructorService.updateLearningOutcome({
       ...updateLearningOutcomeDto,
-      user: req.user.sub,
+      creator: req.user.sub,
     });
   }
 

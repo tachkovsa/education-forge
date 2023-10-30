@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LearningOutcomeEntity } from './models/learning-outcome.entity';
@@ -24,16 +28,13 @@ export class LearningOutcomesService {
 
   async getLearningOutcomesByUser({ userId }) {
     return this.learningOutcomeRepository.find({
-      // relations: ['user'],
-      where: { user: { id: userId } },
-      // select: {
-      // },
+      where: { creator: { id: userId } },
     });
   }
 
-  async getLearningOutcomeById({ id, userId }) {
+  async getLearningOutcomeById({ id }) {
     const learningOutcome = await this.learningOutcomeRepository.findOne({
-      where: { id, user: { id: userId } },
+      where: { id },
     });
 
     if (!learningOutcome) {
@@ -46,15 +47,21 @@ export class LearningOutcomesService {
   async updateLearningOutcome(
     learningOutcomeForUpdate: Partial<LearningOutcomeEntity>,
   ) {
-    const { id, user: userId } = learningOutcomeForUpdate;
-    const learningOutcome = await this.getLearningOutcomeById({ id, userId });
+    const { id, creator: userId } = learningOutcomeForUpdate;
+    const learningOutcome = await this.getLearningOutcomeById({ id });
+
+    if (learningOutcome.creator !== userId) {
+      throw new ForbiddenException(
+        'Данный результат обучения вам не принадлежит',
+      );
+    }
 
     await this.learningOutcomeRepository.save({
       ...learningOutcome,
       ...learningOutcomeForUpdate,
     });
 
-    return this.getLearningOutcomeById({ id, userId });
+    return this.getLearningOutcomeById({ id });
   }
 
   async deleteLearningOutcomeById({ id }) {

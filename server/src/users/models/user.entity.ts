@@ -36,7 +36,7 @@ export class UserEntity {
 
   @OneToMany(
     () => LearningOutcomeEntity,
-    (learningOutcome) => learningOutcome.user,
+    (learningOutcome) => learningOutcome.creator,
   )
   @JoinColumn()
   learningOutcomes: LearningOutcomeEntity[];

@@ -15,6 +15,9 @@ export class LearningOutcomeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true })
+  who?: string;
+
   @Column({ name: 'blooms_level' })
   bloomsLevel: BloomsLevel;
 
@@ -27,9 +30,11 @@ export class LearningOutcomeEntity {
   @Column()
   condition: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.learningOutcomes)
-  @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  @ManyToOne(() => UserEntity, (user) => user.learningOutcomes, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'creator_id' })
+  creator?: UserEntity;
 
   @CreateDateColumn({ name: 'create_date' })
   createdAt: Date;
