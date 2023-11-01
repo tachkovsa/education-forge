@@ -12,7 +12,13 @@ import {
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
 import { LearningOutcomesService } from './learning-outcomes.service';
 import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
-import { ApiTags, ApiParam, ApiProperty, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiParam,
+  ApiProperty,
+  ApiBearerAuth,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { BloomsLevel } from './constants';
 import { VerbsService } from './verbs.service';
 import { Public } from '../auth/decorators/public.decorator';
@@ -28,6 +34,9 @@ export class ConstructorController {
   ) {}
 
   @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Создать результат обучения',
+  })
   @Post('learning-outcomes')
   createLearningOutcome(
     @Body() saveLearningOutcomeDto: SaveLearningOutcomeDto,
@@ -39,6 +48,10 @@ export class ConstructorController {
     });
   }
 
+  @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Получить созданные текущие пользователем результаты обучения',
+  })
   @Get('learning-outcomes')
   getLearningOutcomes(@Request() req) {
     return this.constructorService.getLearningOutcomesByUser({
@@ -46,6 +59,10 @@ export class ConstructorController {
     });
   }
 
+  @ApiOperation({
+    summary: 'Получить результат обучения по идентификатору',
+  })
+  @Public()
   @Get('learning-outcomes/:id')
   @ApiParam({
     name: 'id',
@@ -56,6 +73,10 @@ export class ConstructorController {
     return this.constructorService.getLearningOutcomeById({ id });
   }
 
+  @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Изменить результат обучения',
+  })
   @Patch('learning-outcomes')
   updateLearningOutcomes(
     @Body() updateLearningOutcomeDto: UpdateLearningOutcomeDto,
@@ -67,6 +88,10 @@ export class ConstructorController {
     });
   }
 
+  @ApiOperation({
+    summary:
+      'Получить глаголы, соответствующие указанному уровню таксономии Блума',
+  })
   @ApiProperty({
     name: 'blooms-level',
     enum: [
@@ -84,6 +109,10 @@ export class ConstructorController {
     return this.verbsService.getVerbsByBloomsLevel({ bloomsLevel });
   }
 
+  @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Добавить результат обучения в избранные',
+  })
   @ApiProperty({
     name: 'learning-outcome-id',
   })
@@ -98,11 +127,19 @@ export class ConstructorController {
     });
   }
 
+  @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Получить избранные результаты обучения текущего пользователя',
+  })
   @Get('favourites')
   getFavourites(@Request() req) {
     return this.favouritesService.getFavouritesByUserId(req.user.sub);
   }
 
+  @ApiBearerAuth('JWT')
+  @ApiOperation({
+    summary: 'Удалить результат обучения из избранного',
+  })
   @Delete('favourites/:id')
   removeFromFavourites(@Param('id') learningOutcomeId, @Request() req) {
     const { id: userId } = req.user;
