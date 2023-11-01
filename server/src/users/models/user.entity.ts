@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { LearningOutcomeEntity } from '../../constructor/models/learning-outcome.entity';
+import { FavouritesEntity } from '../../constructor/models/favourites.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -36,10 +37,13 @@ export class UserEntity {
 
   @OneToMany(
     () => LearningOutcomeEntity,
-    (learningOutcome) => learningOutcome.user,
+    (learningOutcome) => learningOutcome.creator,
   )
   @JoinColumn()
   learningOutcomes: LearningOutcomeEntity[];
+
+  @OneToMany(() => FavouritesEntity, (favourite) => favourite.user)
+  favourites: FavouritesEntity[];
 
   @CreateDateColumn({ name: 'create_date' })
   createdAt: Date;

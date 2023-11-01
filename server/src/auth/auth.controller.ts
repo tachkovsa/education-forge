@@ -3,13 +3,16 @@ import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginUserDto } from '../users/dto/login-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({
+    summary: 'Пройти аутентификацию',
+  })
   @HttpCode(HttpStatus.OK)
   @Public()
   @Post('signin')
@@ -19,6 +22,9 @@ export class AuthController {
     return this.authService.signIn(email, password);
   }
 
+  @ApiOperation({
+    summary: 'Пройти регистрацию',
+  })
   @HttpCode(HttpStatus.CREATED)
   @Public()
   @Post('signup')
