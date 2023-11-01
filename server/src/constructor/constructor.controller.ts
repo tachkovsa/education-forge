@@ -102,6 +102,7 @@ export class ConstructorController {
       'evaluating',
       'creating',
     ],
+    description: 'Уровень таксономии Блума',
   })
   @Public()
   @Get('verbs')
@@ -115,6 +116,7 @@ export class ConstructorController {
   })
   @ApiProperty({
     name: 'learning-outcome-id',
+    description: 'Идентификатор результата обучения',
   })
   @Post('favourites')
   addToFavourites(
@@ -139,6 +141,10 @@ export class ConstructorController {
   @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Удалить результат обучения из избранного',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Идентификатор избранного',
   })
   @Delete('favourites/:id')
   removeFromFavourites(@Param('id') learningOutcomeId, @Request() req) {
