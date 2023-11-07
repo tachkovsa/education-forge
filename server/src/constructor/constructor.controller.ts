@@ -10,7 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { SaveLearningOutcomeDto } from './dto/save-learning-outcome.dto';
-import { LearningOutcomesService } from './learning-outcomes.service';
+import { LearningOutcomesService } from './services/learning-outcomes.service';
 import { UpdateLearningOutcomeDto } from './dto/update-learning-outcome.dto';
 import {
   ApiTags,
@@ -20,9 +20,9 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { BloomsLevel } from './constants';
-import { VerbsService } from './verbs.service';
+import { VerbsService } from './services/verbs.service';
 import { Public } from '../auth/decorators/public.decorator';
-import { FavouritesService } from './favourites.service';
+import { FavouritesService } from './services/favourites.service';
 
 @ApiTags('constructor')
 @Controller('constructor')

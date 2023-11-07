@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { LearningOutcomeEntity } from '../../constructor/models/learning-outcome.entity';
 import { FavouritesEntity } from '../../constructor/models/favourites.entity';
+import { VerificationEntity } from '../../auth/models/verification.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -44,6 +45,9 @@ export class UserEntity {
 
   @OneToMany(() => FavouritesEntity, (favourite) => favourite.user)
   favourites: FavouritesEntity[];
+
+  @OneToMany(() => VerificationEntity, (verification) => verification.user)
+  verifications: VerificationEntity[];
 
   @CreateDateColumn({ name: 'create_date' })
   createdAt: Date;

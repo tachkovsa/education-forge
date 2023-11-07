@@ -6,10 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { VerificationEntity } from './models/verification.entity';
 
 @Module({
   imports: [
     UsersModule,
+    TypeOrmModule.forFeature([VerificationEntity]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

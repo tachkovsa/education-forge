@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FavouritesEntity } from './models/favourites.entity';
+import { FavouritesEntity } from '../models/favourites.entity';
 import { Repository } from 'typeorm';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { LearningOutcomesService } from './learning-outcomes.service';
+import { LearningOutcomesService } from './services/learning-outcomes.service';
 import { ConstructorController } from './constructor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LearningOutcomeEntity } from './models/learning-outcome.entity';
 import { VerbsEntity } from './models/verbs.entity';
-import { VerbsService } from './verbs.service';
+import { VerbsService } from './services/verbs.service';
 import { FavouritesEntity } from './models/favourites.entity';
-import { FavouritesService } from './favourites.service';
+import { FavouritesService } from './services/favourites.service';
 
 @Module({
   imports: [

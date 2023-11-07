@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { VerbsEntity } from './models/verbs.entity';
+import { VerbsEntity } from '../models/verbs.entity';
 
 @Injectable()
 export class VerbsService {

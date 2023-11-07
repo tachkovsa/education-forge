@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LearningOutcomeEntity } from './models/learning-outcome.entity';
+import { LearningOutcomeEntity } from '../models/learning-outcome.entity';
 
 @Injectable()
 export class LearningOutcomesService {
