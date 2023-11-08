@@ -8,10 +8,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VerificationEntity } from './models/verification.entity';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
     UsersModule,
+    RedisModule,
     TypeOrmModule.forFeature([VerificationEntity]),
     JwtModule.register({
       global: true,

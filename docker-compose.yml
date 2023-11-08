@@ -17,22 +17,34 @@ services:
 #      - education-forge-network
 #    depends_on:
 #      - db
+  cache:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --logLevel warning --requirepass cJA6A53PL0bVorOf
+    volumes:
+      - cache:/data
+    networks:
+      - education-forge-network
   db:
-      image: postgres
-      restart: unless-stopped
-      environment:
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_DB=${POSTGRES_DB}
-      ports:
-        - '5432:5432'
-      volumes:
-        - db:/var/lib/postgresql/data
-      networks:
-        - education-forge-network
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - education-forge-network
 networks:
   education-forge-network:
     driver: bridge
 volumes:
+  cache:
+    driver: local
   db:
     driver: local

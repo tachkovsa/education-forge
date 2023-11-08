@@ -10,10 +10,14 @@ import { ConstructorModule } from './constructor/constructor.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './interceptors/response.interceptor';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { RedisModule } from './redis/redis.module';
+import { RedisService } from './redis/redis.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => ({
@@ -32,11 +36,13 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
     AuthModule,
     UsersModule,
     ConstructorModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     UsersService,
+    RedisService,
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
